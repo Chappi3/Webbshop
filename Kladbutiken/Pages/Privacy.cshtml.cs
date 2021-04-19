@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using DataAccess.Entities;
+using Kladbutiken.Utils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
 namespace Kladbutiken.Pages
 {
     public class PrivacyModel : PageModel
     {
-        private readonly ILogger<PrivacyModel> _logger;
+        public User LoggedInAs { get; set; }
 
-        public PrivacyModel(ILogger<PrivacyModel> logger)
+        public async Task OnGet()
         {
-            _logger = logger;
-        }
+            var userDetailsCookie = Request.Cookies["UserDetails"];
+            var cart = HttpContext.Session.GetString("cart");
 
-        public void OnGet()
-        {
+            if (userDetailsCookie != null)
+            {
+                LoggedInAs = await UserCookieHandler.GetUserAndCartByCookies(userDetailsCookie, cart);
+            }
         }
     }
 }

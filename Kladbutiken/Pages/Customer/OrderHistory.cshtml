@@ -1,0 +1,71 @@
+﻿@page
+@model Kladbutiken.Pages.Customer.OrderHistoryModel
+@{
+}
+<link href="~/css/CustomerStyle.css" rel="stylesheet">
+<div class="container">
+    <div>
+        <div class="view-account">
+            <section class="module">
+                <div class="module-inner">
+                    <div class="side-bar">
+                        <div class="user-info">
+                            <img class="img-profile img-circle img-responsive center-block" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                            <ul class="meta list list-unstyled">
+                                <li class="name">
+                                    @Model.LoggedInAs.FirstName @Model.LoggedInAs.LastName
+                                </li>
+                                <li class="Användarnamn"><a href="#">@Model.LoggedInAs.EmailAddress</a></li>
+                                <li class="activity">Medlem sedan: @Model.LoggedInAs.RegisterDate.ToShortDateString()</li>
+                            </ul>
+                        </div>
+                        <nav class="side-menu">
+                            <ul class="nav">
+                                <li><a href="/Customer/Profile"><span class="fa fa-user"></span> Min sida</a></li>
+                                <li class="active"><a href="/Customer/OrderHistory"><span class="fas fa-clipboard-list"></span> Orderhistorik</a></li>
+                                <li><a href="/Customer/Edit"><span class="fa fa-cog"></span> Settings</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="content-panel">
+                        <h2 class="title">Hej @Model.LoggedInAs.FirstName!</h2>
+                        <form class="form-horizontal">
+                            <fieldset class="fieldset">
+                                <h3 class="fieldset-title">Mina beställningar</h3>
+                                <div class="form-group">
+                                   
+                                    @if (Model.LoggedInAs.Orders.Count() == 0)
+                                    {
+                                        <p>Det finns inga ordrar</p>
+                                    }
+                                    else
+                                    {
+                                        foreach (var order in Model.LoggedInAs.Orders.OrderByDescending(o => o.OrderDate))
+                                        {
+                                            
+                                            <h4>Order: @order.OrderNumber</h4>
+                                            <p>Datum: @order.OrderDate</p>
+                                            <p>Status: @order.Status</p>
+                                            @*<p>Leveranssätt: @Model.Shipment</p>*@
+                                            <p>Leveransadress: @order.Address</p>
+                                            foreach (var cartItem in order.ProductList)
+                                            {
+                                                <p>Produkt: @cartItem.Product.ProductName</p>
+                                                <p>Antal: @cartItem.Quantity</p>
+                                            }
+                                            <hr />
+                                        }
+                                    }
+                                    <div class="col-md-10 col-sm-9 col-xs-12">
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <br />
+                            <hr>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

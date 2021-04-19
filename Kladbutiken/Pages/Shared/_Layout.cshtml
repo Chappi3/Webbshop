@@ -3,43 +3,129 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Kladbutiken</title>
+    <title>@ViewData["Title"] - Empty Hanger</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+    <link href="css/shop-homepage.css" rel="stylesheet">
+    <style>
+        a.dropdown-item:hover {
+            background-color: dimgray !important
+        }
+
+        body.font-family {
+            font-family: sans-serif;
+        }
+
+        a.link {
+            color: white !important;
+            text-decoration: none;
+        }
+
+        li.nav-item:hover {
+            color: white !important;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Kladbutiken</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" href="/" style="width:200px;"><img class="rounded-circle" src="~/images/Logo.png" alt="Empty Hanger" title="Empty Hanger" style="width:60px;">Empty Hanger</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link" href="/">
+                                Startsida
+                                <span class="sr-only">(current)</span>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link" href="/AboutUs">Om oss</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ContactUs">Kontakt</a>
+                        </li>
+                        @if (Model.LoggedInAs != null && Model.LoggedInAs.EmailAddress == "admin@emptyhanger.net")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Admin">Admin</a>
+                            </li>
+                        }
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0 ml-auto" method="get">
+                        <input class="form-control mr-sm-2" type="search" name="SearchInput" asp-route-searchInput="SearchInput" placeholder="Sök produkt. . ." aria-label="Search">
+                        <button class="btn btn-outline-light my-2 my-sm-0" title="Sök" asp-page="./SearchPage">Sök</button>
+                    </form>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item mt-2 mr-3">
+                            <a href="/Cart">
+                                <span style="color:azure; font-size:25px; vertical-align:central">
+                                    <i class="fas fa-shopping-cart" title="Kundkorg"></i>
+                                </span>
+                                @if (Model.LoggedInAs != null)
+                                {
+                                    <span class="badge rounded-pill bg-info text-dark">@Model.LoggedInAs.ProductCart.Count</span>
+                                }
+                            </a>
+                        </li>
+                        <li class="nav-item ml-3;">
+                            @if (Model.LoggedInAs != null)
+                            {
+                                @*<a class="nav-link" href="/Customer/Profile">*@
+                                <div class="dropdown-container: position-relative">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size:25px; background-color: #343a40 !important; border: none !important;">
+                                        <i class="far fa-user"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background-color: #343a40 !important">
+                                        <a class="dropdown-item" href="/Customer/Profile" style="color: white"><b>Min sida</b></a>
+                                        <a class="dropdown-item" href="/LogOut" style="color: white"><b>Logga ut @Model.LoggedInAs.FirstName</b></a>
+                                    </div>
+                                </div>
+
+                            }
+                            else
+                            {
+                                <a class="nav-link" href="/Login">
+                                    <span style="color:azure; font-size:20px;" title="Logga in">Logga in</span>
+                                    <span style="color:azure; font-size:25px;">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </span>
+                                </a>
+                            }
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - Kladbutiken - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
+    <partial name="_CookieConsentPartial" />
+    <main role="main" class="mb-5">
+        @RenderBody()
+    </main>
+
+    <div style="bottom: 0; position: fixed; width: 100%; margin-top: 50px;">
+        <footer class="py-2 bg-dark">
+            <div class="row">
+                <div class="col-md-4">
+                    @if (Model.LoggedInAs != null)
+                    {
+                        <p class="m-0 pl-2 text-left text-white"><a class="link" href="/Customer/Profile">Inloggad som: @Model.LoggedInAs.FirstName</a></p>
+                    }
+                </div>
+                <div class="col-md-4">
+                    <p class="m-0 text-center text-white">Copyright &copy; Empty Hanger @DateTime.Now.Year</p>
+                </div>
+                <div class="col-md-4">
+                    <p class="m-0 pr-2 text-right text-white"><a class="link" href="/Privacy">Sekretess & säkerhet</a></p>
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

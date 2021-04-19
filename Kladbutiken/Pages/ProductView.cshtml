@@ -1,0 +1,125 @@
+﻿@page
+@model Kladbutiken.Pages.ProductViewModel
+@{
+
+}
+<style>
+    a.list-group-item:hover {
+        background-color: dimgray !important;
+        font-weight: 800;
+        text-decoration: none !important;
+    }
+
+    a.list-group-item {
+        margin-bottom: 4px;
+    }
+    div.categoryList {
+        position: fixed !important;
+        z-index: 100 !important;
+        width: 270px;
+    }
+</style>
+<div class="container">
+
+    <div class="row">
+
+        <div class="categoryList">
+            <h2 class="my-4" style="text-align:center">@Model.Product.Category.TypeName</h2>
+            <div class="list-group">
+                <a class="list-group-item" href="/" style="background-color: #343a40; border: none !important; color: azure;">Alla varor</a>
+
+                @foreach (var category in Model.AllCategories)
+                {
+                    <a class="list-group-item" href=".?SelectedCategory=@category.TypeName" style="background-color: #343a40; border: none !important; color: azure;">@category.TypeName</a>
+                }
+
+            </div>
+        </div>
+        <div class="col-lg-3"></div>
+
+        <div class="col-lg-9">
+
+            <div class="card mt-4">
+                <img class="card-img-top img-fluid mx-auto" src="@Model.Product.URLImg" style="width:450px; height:550px" alt="" title="@Model.Product.ProductName">
+                <div class="card-body">
+                    <h3 class="card-title">@Model.Product.ProductName</h3>
+                    <h4>
+                        @if (Model.Product.PriceWithDiscount != Model.Product.Price)
+                        {
+                            <span><s>@Model.Product.Price</s> :-</span>
+
+                            <span class="text-danger">@Math.Round(Model.Product.PriceWithDiscount, 0) :-</span>
+                        }
+                        else
+                        {
+                            <span>@Model.Product.Price :-</span>
+                        }
+                    </h4>
+                    <p class="card-text">@Model.Product.Description</p>
+                    @if (Model.Product.StockBalance == 0)
+                    {
+                        <span class="text-danger">Slutsåld!</span>
+                    }
+                    else
+                    {
+                        <div class="center mb-3">
+                            <div class="buttons d-flex flex-row">
+                                <form asp-page-handler="add" method="post">
+                                    <button class="btn btn-success cart-button px-5"><span class="dot"></span>Lägg i kundkorgen </button>
+                                    <input type="hidden" name="id" value="@Model.Product.ID" />
+                                </form>
+                            </div>
+                        </div>
+                        <span>Lagersaldo: </span>
+                        <span class="text-warning">@Model.Product.StockBalance</span>
+                    }
+                </div>
+            </div>
+            <!-- /.card -->
+
+            <div class="card card-outline-secondary my-4">
+                <div class="card-header">
+                    Liknande produkter
+                </div>
+                <div class="row">
+
+                    @foreach (var product in Model.MatchingProducts.Where(p => p.ID != Model.SelectedProduct).Take(3))
+                    {
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a href="/ProductView?SelectedProduct=@product.ID"><img class="card-img-top" src="@product.URLImg" alt="" title="@product.ProductName"></a>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        <a href="/ProductView?SelectedProduct=@product.ID">@product.ProductName</a>
+                                    </h4>
+                                    <h5>
+                                        @if (product.PriceWithDiscount != product.Price)
+                                        {
+                                            <span><s>@product.Price</s> :-</span>
+
+                                            <span class="text-danger">@Math.Round(product.PriceWithDiscount, 0) :-</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@product.Price :-</span>
+                                        }
+                                    </h5>
+                                    <p class="card-text">@product.Description</p>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-muted">@product.Category.TypeName</small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+            <!-- /.card -->
+
+        </div>
+        <!-- /.col-lg-9 -->
+
+    </div>
+
+</div>

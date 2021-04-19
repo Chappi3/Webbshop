@@ -1,0 +1,85 @@
+﻿@page
+@model Kladbutiken.Pages.RegisterModel
+@{
+}
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Page Title - SB Admin</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-light">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Skapa konto</h3></div>
+                                <div class="card-body">
+                                    <form method="post" target="_self">
+                                        <div class="form-row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="small mb-1" for="inputFirstName">Förnamn</label>
+                                                    <input class="form-control py-4" id="inputFirstName" type="text" asp-for="UserModel.FirstName" placeholder="Ange förnamn" />
+                                                    <span asp-validation-for="UserModel.FirstName" class="text-danger"></span>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="small mb-1" for="inputLastName">Efternamn</label>
+                                                    <input class="form-control py-4" id="inputLastName" type="text" asp-for="UserModel.LastName" placeholder="Ange efternamn" />
+                                                    <span asp-validation-for="UserModel.LastName" class="text-danger"></span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputEmailAddress">E-mail</label>
+                                            <input class="form-control py-4" id="inputEmailAddress" type="email" asp-for="UserModel.Email" aria-describedby="emailHelp" placeholder="Ange e-mailadress" />
+                                            <span asp-validation-for="UserModel.Email" class="text-danger"></span>
+
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="small mb-1" for="inputPassword">Lösenord</label>
+                                                    <input class="form-control py-4" id="inputPassword" type="password" asp-for="UserModel.Password" placeholder="Lösenordet måste innehålla minst 8 och max 50 tecken" />
+                                                    <span asp-validation-for="UserModel.Password" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="small mb-1" for="inputConfirmPassword">Upprepa lösenord</label>
+                                                    <input class="form-control py-4" id="inputConfirmPassword" type="password" asp-for="UserModel.ConfirmPassword" placeholder="Upprepa lösenord" />
+                                                    <span asp-validation-for="UserModel.ConfirmPassword" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mt-4 mb-0"><button class="btn btn-primary btn-block" type="submit">Skapa konto</button></div>
+                                        
+                                    </form>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <div class="small"><a href="login">Redan medlem? Gå till inloggningen!</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+     
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+   
+</body>
